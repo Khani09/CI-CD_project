@@ -1,22 +1,19 @@
-#  Use and official python image
+# Use official Python image
 FROM python:3.10-slim
 
-# Set enviroment variables to prevent Python from writing .pyc files and enable unbuffered logs
-ENV PYTHNDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Environment vars
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# set working directory inside container
+# Set work dir
 WORKDIR /app
 
-# Copy dependancy list
-COPY requirements.txt /app/requirements.txt
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Install dependancy
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-# Copy the entire project into container
+# Copy project files
 COPY . /app/
 
-# Run Run the development server (for production, use gunicorn)
+# Run Django
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
