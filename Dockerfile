@@ -1,11 +1,11 @@
 # Use official Python image
 FROM python:3.10-slim
 
-# Environment vars
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Set work dir
+# Create working directory
 WORKDIR /app
 
 # Install dependencies
@@ -15,5 +15,8 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 # Copy project files
 COPY . /app/
 
-# Run Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Expose port
+EXPOSE 8000
+
+# Run the Django app
+CMD ["gunicorn", "your_project_name.wsgi:application", "--bind", "0.0.0.0:8000"]
