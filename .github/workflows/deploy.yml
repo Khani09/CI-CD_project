@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Debug Private Key Length
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | wc -c
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
