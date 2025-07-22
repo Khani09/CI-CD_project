@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Debug Private Key Length
         run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | wc -c
 
@@ -23,6 +24,6 @@ jobs:
           script: |
             cd /home/CI-CD_project
             git pull origin main
-            docker compose down
-            docker compose build --no-cache
-            docker compose up -d --force-recreate
+            docker-compose down
+            docker-compose build --no-cache
+            docker-compose up -d --force-recreate
