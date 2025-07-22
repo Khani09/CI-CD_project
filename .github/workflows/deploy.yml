@@ -15,13 +15,14 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VM_HOST }}
-          username: ${{ secrets.VM_USERNAME }}
-          key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
-          script: |
-            cd /home/CI-CD_project  # 🔁 Change this
-            git pull origin main
+         host: ${{ secrets.VM_HOST }}           # should be 145.223.79.111
+         username: ${{ secrets.VM_USERNAME }}   # should be root
+         key: ${{ secrets.SSH_PRIVATE_KEY }}    # your private key
+         script: |
+          cd /home/CI-CD_project
+          git pull origin main
+          docker compose down
+          docker compose build --no-cache
+          docker compose up -d --force-recreate
 
-            docker compose down
-            docker compose build --no-cache
-            docker compose up -d --force-recreate
+            
