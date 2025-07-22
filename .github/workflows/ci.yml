@@ -48,3 +48,10 @@ jobs:
   
     - name: Build Docker image
       run: docker build -t test-image .
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@master
+      with:
+       host: ${{ secrets.VM_HOST }}
+       username: ${{ secrets.VM_USERNAME }}
+       key: ${{ secrets.SSH_PRIVATE_KEY }}  # 👈 THIS MUST MATCH SECRET NAME
+
