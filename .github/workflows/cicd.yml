@@ -10,23 +10,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: 📋 Log workflow start
+        run: echo "Workflow started at $(date)"
+        
       - name: ⬇️ Checkout code
         uses: actions/checkout@v3
 
-      - name: ⚙️ Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+      - name: 🐳 Set up Docker + Docker Compose v2
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose-plugin -y
+          docker compose version  # test it works
 
-      - name: 📦 Install dependencies
+      - name: 🧱 Build Docker images
+        run: docker compose -f docker-compose.yml build
+
+      - name: 📦 Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 🐳 Build Docker image
-        run: docker-compose -f docker-compose.yml build
-
-      - name: 📡 Deploy via SSH
+      - name: 🚀 Deploy to VPS via SSH
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -35,5 +39,5 @@ jobs:
           script: |
             cd ~/CI-CD_project
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
+            docker compose down
+            docker compose up -d --build
