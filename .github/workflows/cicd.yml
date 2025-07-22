@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.VM_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/CI-CD_project
+            cd /home/CI-CD_project
             git pull origin main
             docker compose down
             docker compose up -d --build
