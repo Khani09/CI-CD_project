@@ -1,5 +1,5 @@
 #  Use and official python image
-From python:3.10-slim
+FROM python:3.10-slim
 
 # Set enviroment variables to prevent Python from writing .pyc files and enable unbuffered logs
 ENV PYTHNDONTWRITEBYTECODE 1
